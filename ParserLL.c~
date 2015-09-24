@@ -57,16 +57,21 @@ const int PROD8[] = {0};                      // T' -> vazio
 const int PROD9[] = {3, AND, E, TL};          // T' -> &ET'
 const int PROD10[]= {3, LPAR, E, RPAR};       // E  -> (E)
 const int PROD11[]= {2, NOT, E};              // E  -> ~E
+const int PROD12[]= {1, V};                   // E  -> V
+const int PROD13[]= {1, F};                   // E  -> F
+const int PROD14[] ={0};                      // I' -> vazio
 
 // vetor utilizado para mapear um numero e uma producao.
-const int *PROD[] = {NULL, PROD1, PROD2, PROD3, PROD4, PROD5, PROD6, PROD7, PROD8, PROD9, PROD10};
+const int *PROD[] = {NULL, PROD1, PROD2, PROD3, PROD4, PROD5, PROD6, PROD7, PROD8, PROD9, PROD10, PROD11, PROD12, PROD13, PROD14};
 
 // Tabela sintatica LL(1). Os numeros correspondem as producoes acima.
-const int STAB[5][8] = {{0, 0, 0, 0, 1, 1, 0, 0},
-								{ 2, 3, 0, 0, 0, 0, 4, 4},
-								{ 0, 0, 0, 0, 5, 5, 0, 0},
-								{ 8, 8, 6, 7, 0, 0, 8, 8},
-								{ 0, 0, 0, 0, 9,10, 0, 0}};
+const int STAB[7][10] = {{1, 1, 1, 0, 0, 0, 0, 1, 0, 0},
+			 {0, 0, 0, 0, 0, 0, 2, 0, 3, 3},
+			 {4, 4, 4, 0, 0, 0, 0, 4, 0, 0},
+			 {0, 0, 0, 0, 0, 5, 0, 0, 0, },
+			 {6, 6, 0, 0, 0, 0, 0, 6, 0, 0},
+		         {0, 0, 0, 9, 7, 0, 0, 0, 0, 0},
+			 {12, 13, 11, 0, 0, 0, 0, 10, 0, 0}};
 
 /*****************************************************************
 * int lex (char *str, int *pos)                                  *
