@@ -17,7 +17,7 @@ terminal */
 #define IL 0x8004
 #define T  0x8005
 #define TL 0x8006
-#define E  0x8007
+#define E  0x8006
 
 /* Terminais */
 #define V      0x0000
