@@ -27,6 +27,9 @@ terminal */
 #define LPAR   0x0400
 #define RPAR   0x0500
 #define FIM    0x0600
+#define BIMP   0x0700
+#define IMP    0x0800
+#define OR     0X0900
 
 //Mascaras
 #define NTER   0x8000
@@ -43,19 +46,22 @@ struct Pilha {
 /* Producoes a primeira posicao do vetor indica quantos simbolos
 gramaticais a producao possui em seu lado direito */
 
-const int PROD1[] = {2, TERMO, EXPRL};        // E  -> TE'
-const int PROD2[] = {3, AD, TERMO, EXPRL};    // E' -> +TE'
-const int PROD3[] = {3, SUB, TERMO, EXPRL};   // E' -> -TE'
-const int PROD4[] = {0};                      // E' -> vazio
-const int PROD5[] = {2, FATOR, TERMOL};       // T  -> FT'
-const int PROD6[] = {3, MUL, FATOR, TERMOL};  // T' -> *FT'
-const int PROD7[] = {3, DIV, FATOR, TERMOL};  // T' -> /FT'
+const int PROD1[] = {2, I, BL};     	      // B  -> IB'
+const int PROD2[] = {3, BIMP, I, BL};         // B' -> <->IB'
+const int PROD3[] = {0};                      // B' -> vazio
+const int PROD4[] = {2, T, IL};               // I  -> TI'
+const int PROD5[] = {3, IMP, T, IL};          // I' -> ->TI'
+const int PROD6[] = {2, E, TL};               // T  -> ET'
+const int PROD7[] = {3, OR, E, TL};           // T' -> |ET'
 const int PROD8[] = {0};                      // T' -> vazio
-const int PROD9[] = {1, CONST};               // F  -> const
-const int PROD10[]= {3, APAR, EXPR, FPAR};    // F  -> (E)
+const int PROD9[] = {3, AND, E, TL};          // T' -> &ET'
+const int PROD10[]= {3, LPAR, E, RPAR};       // E  -> (E)
+const int PROD11[]= {2, NOT, E};              // E  -> ~E
+const int PROD12[]= {1, V};                   // E  -> V
+const int PROD13[]= {1, F};                   // E  -> F
 
 // vetor utilizado para mapear um numero e uma producao.
-const int *PROD[] = {NULL, PROD1, PROD2, PROD3, PROD4, PROD5, PROD6, PROD7, PROD8, PROD9, PROD10};
+const int *PROD[] = {NULL, PROD1, PROD2, PROD3, PROD4, PROD5, PROD6, PROD7, PROD8, PROD9, PROD10, PROD11, PROD12, PROD13};
 
 // Tabela sintatica LL(1). Os numeros correspondem as producoes acima.
 const int STAB[5][8] = {{0, 0, 0, 0, 1, 1, 0, 0},
