@@ -18,16 +18,20 @@ terminal */
 #define T  0x8005
 #define TL 0x8006
 #define E  0x8007
-#define V      0x0000
-#define F      0x0100
-#define NOT    0X0200
-#define AND    0x0300
-#define LPAR   0x0400
-#define RPAR   0x0500
-#define FIM    0x0600
-#define BIMP   0x0700
-#define IMP    0x0800
-#define OR     0X0900
+
+/*Terminais*/
+#define ERRO   0x0000
+#define V      0x0100
+#define F      0x0200
+#define NOT    0X0300
+#define AND    0x0400
+#define LPAR   0x0500
+#define RPAR   0x0600
+#define FIM    0x0700
+#define BIMP   0x0800
+#define IMP    0x0900
+#define OR     0X0110
+#define CONST  0x0120
 
 //Mascaras
 #define NTER   0x8000
@@ -53,7 +57,7 @@ const int PROD6[] = {2, E, TL};               // T  -> ET'
 const int PROD7[] = {3, OR, E, TL};           // T' -> |ET'
 const int PROD8[] = {0};                      // T' -> vazio
 const int PROD9[] = {3, AND, E, TL};          // T' -> &ET'
-const int PROD10[]= {3, LPAR, E, RPAR};       // E  -> (E)
+const int PROD10[]= {3, LPAR, B, RPAR};       // E  -> (B)
 const int PROD11[]= {2, NOT, E};              // E  -> ~E
 const int PROD12[]= {1, V};                   // E  -> V
 const int PROD13[]= {1, F};                   // E  -> F
@@ -107,6 +111,7 @@ int lex (char *str, int *pos)
 								estado = 2;
 								break;
 						case '|':
+								printf("Passei aqui\n");
 								(*pos)++;
 								return OR;
 						case '&':
@@ -293,7 +298,7 @@ void parser(char *expr)
 
 	inicializa(&pilha);
 	insere(&pilha, FIM);
-	insere(&pilha, EXPR);
+	insere(&pilha, B);
 	if ((a = lex(expr, &pos)) == ERRO)
 		erro("Erro lexico", expr, pos);
 	do
