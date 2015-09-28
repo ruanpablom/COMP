@@ -18,8 +18,6 @@ terminal */
 #define T  0x8005
 #define TL 0x8006
 #define E  0x8007
-
-/* Terminais */
 #define V      0x0000
 #define F      0x0100
 #define NOT    0X0200
@@ -108,24 +106,41 @@ int lex (char *str, int *pos)
 								(*pos)++;
 								estado = 2;
 								break;
-						case '+':
+						case '|':
 								(*pos)++;
-								return AD;
+								return OR;
+						case '&':
+								(*pos)++;
+								return AND;
+						case '~':
+                                                                (*pos)++;
+                                                                return NOT;
+						case 'V':
+                                                                (*pos)++;
+                                                                return V;
+						case 'F':
+                                                                (*pos)++;
+                                                                return F;
 						case '-':
 								(*pos)++;
-								return SUB;
-						case '*':
+								c =  str[*pos];
+								(*pos++);
+								if(c=='>') return IMP;
+						case '<':
 								(*pos)++;
-								return MUL;
-						case '/':
-								(*pos)++;
-								return DIV;
+								c =  str[*pos];
+                                                                (*pos++);
+								if(c=='-')
+									c =  str[*pos];
+	                                                                if(c=='>')
+										(*pos)++;
+										return BIMP;
 						case '(':
 								(*pos)++;
-								return APAR;
+								return LPAR;
 						case ')':
 								(*pos)++;
-								return FPAR;
+								return RPAR;
 						case '\0':
 								return FIM;
 						default:
