@@ -21,17 +21,15 @@ terminal */
 
 /*Terminais*/
 #define ERRO   0x0000
-#define V      0x0100
-#define F      0x0200
-#define NOT    0X0300
+#define CONST  0x0100
+#define BIMP   0x0200
+#define IMP    0x0300
 #define AND    0x0400
-#define LPAR   0x0500
-#define RPAR   0x0600
-#define FIM    0x0700
-#define BIMP   0x0800
-#define IMP    0x0900
-#define OR     0X0110
-#define CONST  0x0120
+#define OR     0X0510
+#define NOT    0X0600
+#define LPAR   0x0700
+#define RPAR   0x0800
+#define FIM    0x0900
 
 //Mascaras
 #define NTER   0x8000
@@ -53,27 +51,26 @@ const int PROD2[] = {3, BIMP, I, BL};         // B' -> <->IB'
 const int PROD3[] = {0};                      // B' -> vazio
 const int PROD4[] = {2, T, IL};               // I  -> TI'
 const int PROD5[] = {3, IMP, T, IL};          // I' -> ->TI'
-const int PROD6[] = {2, E, TL};               // T  -> ET'
-const int PROD7[] = {3, OR, E, TL};           // T' -> |ET'
-const int PROD8[] = {0};                      // T' -> vazio
-const int PROD9[] = {3, AND, E, TL};          // T' -> &ET'
-const int PROD10[]= {3, LPAR, B, RPAR};       // E  -> (B)
-const int PROD11[]= {2, NOT, E};              // E  -> ~E
-const int PROD12[]= {1, V};                   // E  -> V
-const int PROD13[]= {1, F};                   // E  -> F
-const int PROD14[] ={0};                      // I' -> vazio
+const int PROD6[] ={0};                       // I' -> vazio
+const int PROD7[] = {2, E, TL};               // T  -> ET'
+const int PROD8[] = {3, OR, E, TL};           // T' -> |ET'
+const int PROD9[] = {0};                      // T' -> vazio
+const int PROD10[] = {3, AND, E, TL};          // T' -> &ET'
+const int PROD11[]= {3, LPAR, B, RPAR};       // E  -> (B)
+const int PROD12[]= {2, NOT, E};              // E  -> ~E
+const int PROD13[]= {1, CONST};               // E  -> CONST
 
 // vetor utilizado para mapear um numero e uma producao.
-const int *PROD[] = {NULL, PROD1, PROD2, PROD3, PROD4, PROD5, PROD6, PROD7, PROD8, PROD9, PROD10, PROD11, PROD12, PROD13, PROD14};
+const int *PROD[] = {NULL, PROD1, PROD2, PROD3, PROD4, PROD5, PROD6, PROD7, PROD8, PROD9, PROD10, PROD11, PROD12, PROD13};
 
 // Tabela sintatica LL(1). Os numeros correspondem as producoes acima.
-const int STAB[7][10] = {{1, 1, 1, 0, 0, 0, 0, 1, 0, 0},
-			 {0, 0, 0, 0, 0, 0, 2, 0, 3, 3},
-			 {4, 4, 4, 0, 0, 0, 0, 4, 0, 0},
-			 {0, 0, 0, 0, 0, 5, 14, 0, 0, 14},
-			 {6, 6, 0, 0, 0, 0, 0, 6, 0, 0},
-		         {0, 0, 0, 9, 7, 8, 8, 0, 8, 8},
-			 {12, 13, 11, 0, 0, 0, 0, 10, 0, 0}};
+const int STAB[7][10] = {{1, 1, 1, 0, 0, 0, 0, 1, 0},
+			 			 {0, 0, 0, 0, 0, 0, 2, 0, 3},
+			 			 {4	, 4, 4, 0, 0, 0, 0, 4, 0, 0},
+			 			 {0, 0, 0, 0, 0, 5, 14, 0, 0, 14},
+						 {6, 6, 0, 0, 0, 0, 0, 6, 0, 0},
+		         		 {0, 0, 0, 9, 7, 8, 8, 0, 8, 8},
+			 			 {12, 13, 11, 0, 0, 0, 0, 10, 0, 0}};
 
 /*****************************************************************
 * int lex (char *str, int *pos)                                  *
