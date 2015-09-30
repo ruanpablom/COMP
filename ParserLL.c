@@ -21,12 +21,12 @@ terminal */
 
 /*Terminais*/
 #define ERRO   0x0000
-#define CONST  0x0100
-#define BIMP   0x0200
-#define IMP    0x0300
-#define AND    0x0400
-#define OR     0X0510
-#define NOT    0X0600
+#define BIMP   0x0100
+#define IMP    0x0200
+#define AND    0x0300
+#define OR     0X0400
+#define NOT    0X0500
+#define CONST  0x0600
 #define LPAR   0x0700
 #define RPAR   0x0800
 #define FIM    0x0900
@@ -46,31 +46,31 @@ struct Pilha {
 /* Producoes a primeira posicao do vetor indica quantos simbolos
 gramaticais a producao possui em seu lado direito */
 
-const int PROD1[] = {2, I, BL};     	      // B  -> IB'
-const int PROD2[] = {3, BIMP, I, BL};         // B' -> <->IB'
-const int PROD3[] = {0};                      // B' -> vazio
-const int PROD4[] = {2, T, IL};               // I  -> TI'
-const int PROD5[] = {3, IMP, T, IL};          // I' -> ->TI'
-const int PROD6[] ={0};                       // I' -> vazio
-const int PROD7[] = {2, E, TL};               // T  -> ET'
-const int PROD8[] = {3, OR, E, TL};           // T' -> |ET'
-const int PROD9[] = {0};                      // T' -> vazio
-const int PROD10[] = {3, AND, E, TL};          // T' -> &ET'
-const int PROD11[]= {3, LPAR, B, RPAR};       // E  -> (B)
-const int PROD12[]= {2, NOT, E};              // E  -> ~E
-const int PROD13[]= {1, CONST};               // E  -> CONST
+const int PROD1[] =  {2, I, BL};     	      // B  -> IB'
+const int PROD2[] =  {3, BIMP, I, BL};        // B' -> <->IB'
+const int PROD3[] =  {0};                     // B' -> vazio
+const int PROD4[] =  {2, T, IL};              // I  -> TI'
+const int PROD5[] =  {3, IMP, T, IL};         // I' -> ->TI'
+const int PROD6[] =  {0};                     // I' -> vazio
+const int PROD7[] =  {2, E, TL};              // T  -> ET'
+const int PROD8[] =  {3, OR, E, TL};          // T' -> |ET'
+const int PROD9[] =  {0};                     // T' -> vazio
+const int PROD10[]=  {3, AND, E, TL};         // T' -> &ET'
+const int PROD11[]=  {3, LPAR, B, RPAR};      // E  -> (B)
+const int PROD12[]=  {2, NOT, E};             // E  -> ~E
+const int PROD13[]=  {1, CONST};              // E  -> CONST
 
 // vetor utilizado para mapear um numero e uma producao.
 const int *PROD[] = {NULL, PROD1, PROD2, PROD3, PROD4, PROD5, PROD6, PROD7, PROD8, PROD9, PROD10, PROD11, PROD12, PROD13};
 
 // Tabela sintatica LL(1). Os numeros correspondem as producoes acima.
-const int STAB[7][10] = {{1, 1, 1, 0, 0, 0, 0, 1, 0},
-			 			 {0, 0, 0, 0, 0, 0, 2, 0, 3},
-			 			 {4	, 4, 4, 0, 0, 0, 0, 4, 0, 0},
-			 			 {0, 0, 0, 0, 0, 5, 14, 0, 0, 14},
-						 {6, 6, 0, 0, 0, 0, 0, 6, 0, 0},
-		         		 {0, 0, 0, 9, 7, 8, 8, 0, 8, 8},
-			 			 {12, 13, 11, 0, 0, 0, 0, 10, 0, 0}};
+const int STAB[7][9] = {{0, 0, 0, 0, 1, 1, 1, 0, 0},
+			 			{2, 0, 0, 0, 0, 0, 0, 3, 3},
+			 			{0, 0, 0, 0, 4, 4, 4, 0, 0},
+			 			{6, 5, 0, 0, 0, 0, 0, 6, 6},
+						{0, 0, 0, 0, 7, 7, 7, 0, 0},
+		         		{9, 9, 10, 10, 0, 0, 0, 9, 9},
+			 			{0, 0, 0, 0, 12, 13, 11, 0, 0}};
 
 /*****************************************************************
 * int lex (char *str, int *pos)                                  *
@@ -115,14 +115,15 @@ int lex (char *str, int *pos)
 								(*pos)++;
 								return AND;
 						case '~':
-                                                                (*pos)++;
-                                                                return NOT;
+                                (*pos)++;
+                                return NOT;
 						case 'V':
-                                                                (*pos)++;
-                                                                return V;
+								printf("Passei Aqui %i!\n",c);
+                                (*pos)++;
+                                return CONST;
 						case 'F':
-                                                                (*pos)++;
-                                                                return F;
+                                (*pos)++;
+                                return CONST;
 						case '-':
 								(*pos)++;
 								c =  str[*pos];
@@ -131,10 +132,10 @@ int lex (char *str, int *pos)
 						case '<':
 								(*pos)++;
 								c =  str[*pos];
-                                                                (*pos++);
+                                (*pos++);
 								if(c=='-')
 									c =  str[*pos];
-	                                                                if(c=='>')
+	                                if(c=='>')
 										(*pos)++;
 										return BIMP;
 						case '(':
@@ -146,6 +147,7 @@ int lex (char *str, int *pos)
 						case '\0':
 								return FIM;
 						default:
+								printf("Passei Aqui\n");
 								(*pos)++;
 								return ERRO;
 					}
@@ -297,6 +299,7 @@ void parser(char *expr)
 	insere(&pilha, FIM);
 	insere(&pilha, B);
 	if ((a = lex(expr, &pos)) == ERRO)
+		//printf("%i\n",10);
 		erro("Erro lexico", expr, pos);
 	do
 	{
@@ -307,6 +310,7 @@ void parser(char *expr)
 			{
 				remover (&pilha);
 				if ((a = lex(expr, &pos)) == ERRO)
+					printf("%i\n",10);
 					erro("Erro lexico", expr, pos);
 			}
 			else
@@ -331,7 +335,6 @@ void parser(char *expr)
 void main()
 {
 	char expr[100];
-
 	printf("\nDigite uma expressao: ");
 	gets(expr);
 	parser(expr);
