@@ -346,5 +346,5 @@ void main()
 	printf("\nDigite uma expressao: ");
 	gets(expr);
 	parser(expr);
-	printf("Expressao sintaticamente correta");
+	printf("Expressao sintaticamente correta\n");
 }
