@@ -1,11 +1,11 @@
-delim	[ \t]
+delim	[ \t\n]
 ws	{delim}+
-digito	[0-9]i
+digito	[0-9]
 letra   [a-zA-Z]
 char [ -~]
 literal \"({char})*\"
 num	{digito}+(\.{digito}*(E[+-]?{digito}+)?)?
-id ({letra}|\_)({letra}|{digito}|\_)*
+id ({letra}|\_)({letra}|{digito}|_)*
 
 %%
 {ws}	    {}
@@ -16,11 +16,8 @@ id ({letra}|\_)({letra}|{digito}|\_)*
 "("	    {return TAPAR;}
 ")"	    {return TFPAR;}
 ","         {return TVIRG;}
-\n	    {return TFIM;}
 ";"         {return TPEV;}
 "="         {return TATRIB;}
-"<->"       {return TBIP;}
-"->"        {return TIMP;}
 "&&"        {return TAND;}
 "||"        {return TOR;}
 "=="        {return TEQUAL;}
@@ -42,7 +39,6 @@ id ({letra}|\_)({letra}|{digito}|\_)*
 "print"     {return TPRINT;}
 "{"         {return TABLOC;}
 "}"         {return TFBLOC;}
-
 {num}	    {yylval=atof(yytext); return TNUM;}
 {id}        {return TID;}
 {literal}   {return TLITERAL;} 
